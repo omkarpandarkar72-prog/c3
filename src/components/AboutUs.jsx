@@ -1,4 +1,4 @@
-```jsx
+
 import { Link } from 'react-router-dom';
 
 export default function AboutUs() {
@@ -54,6 +54,6 @@ export default function AboutUs() {
     </section>
   );
 }
-```
+
 
 This version clearly includes **company details, mission, offerings, and why customers should choose Paradise Nursery**, making it stronger for your project evaluation.
