@@ -1,59 +1,42 @@
+import React from 'react';
+import './AboutUs.css';
 
-import { Link } from 'react-router-dom';
-
-export default function AboutUs() {
+function AboutUs({ onBack }) {
   return (
-    <section className="about page">
-      <Link to="/plants">← Plants</Link>
-
-      <h1>About Paradise Nursery</h1>
-
-      <p>
-        Welcome to Paradise Nursery, your trusted destination for beautiful,
-        healthy, and easy-to-care-for houseplants.
-      </p>
-
-      <p>
-        At Paradise Nursery, we believe that plants can make every home and
-        office more peaceful, refreshing, and beautiful. Our goal is to make
-        it easy for everyone to discover the perfect plant for their space.
-      </p>
-
-      <h2>Our Mission</h2>
-
-      <p>
-        Our mission is to help people bring nature into their everyday lives
-        by providing quality houseplants along with simple and useful plant
-        care information.
-      </p>
-
-      <h2>What We Offer</h2>
-
-      <ul>
-        <li>🌿 A variety of beautiful houseplants</li>
-        <li>🌱 Beginner-friendly plants</li>
-        <li>🏡 Plants suitable for homes and offices</li>
-        <li>💚 Simple plant care guidance</li>
-        <li>🛒 Easy and convenient online shopping</li>
-      </ul>
-
-      <h2>Why Choose Paradise Nursery?</h2>
-
-      <p>
-        We carefully select plants that are suitable for different lifestyles
-        and environments. Whether you are a beginner or an experienced plant
-        lover, Paradise Nursery helps you find plants that fit your needs.
-      </p>
-
-      <p>
-        Thank you for choosing Paradise Nursery and joining us in creating
-        greener, healthier, and happier spaces.
-      </p>
-
-      <Link to="/plants">Explore Our Plants →</Link>
-    </section>
+    <div className="about-us-container">
+      <div className="about-us-content">
+        <h1>About Paradise Nursery</h1>
+        <p>
+          Paradise Nursery was founded with a simple mission: to make it easy
+          for everyone to bring the beauty and health benefits of plants into
+          their homes and workspaces. What started as a small family-run
+          greenhouse has grown into a beloved online destination for plant
+          lovers everywhere.
+        </p>
+        <p>
+          Every plant in our collection is hand-selected and nurtured by
+          experienced horticulturists who care deeply about quality. We
+          specialize in air-purifying plants, aromatic and fragrant plants,
+          and natural insect-repellent plants, so you can find the perfect
+          green companion for any room, mood, or need.
+        </p>
+        <p>
+          Our team believes that plants do more than decorate a space — they
+          improve air quality, reduce stress, and reconnect us with nature.
+          That's why we're committed to sustainable growing practices,
+          eco-friendly packaging, and providing the care guidance you need to
+          help every plant thrive.
+        </p>
+        <p>
+          Thank you for choosing Paradise Nursery. We can't wait to help you
+          grow your own little paradise.
+        </p>
+        <button className="about-us-back-button" onClick={onBack}>
+          Back to Home
+        </button>
+      </div>
+    </div>
   );
 }
 
-
-This version clearly includes **company details, mission, offerings, and why customers should choose Paradise Nursery**, making it stronger for your project evaluation.
+export default AboutUs;
