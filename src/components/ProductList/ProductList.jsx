@@ -1,73 +1,197 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { addToCart } from '../../CartSlice.jsx';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem } from '../redux/CartSlice';
+import './ProductList.css';
 
-const plants = [
-  {id:1,name:'Snake Plant',category:'Low Light',price:24.99,image:'https://images.unsplash.com/photo-1593482892290-f54927ae2a26?auto=format&fit=crop&w=700&q=80'},
-  {id:2,name:'ZZ Plant',category:'Low Light',price:29.99,image:'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=700&q=80'},
-  {id:3,name:'Peace Lily',category:'Low Light',price:22.50,image:'https://images.unsplash.com/photo-1593691509543-c55fb32e5cee?auto=format&fit=crop&w=700&q=80'},
-  {id:4,name:'Pothos',category:'Low Light',price:18.99,image:'https://images.unsplash.com/photo-1614594575921-ae1c5f7d1e95?auto=format&fit=crop&w=700&q=80'},
-  {id:5,name:'Cast Iron Plant',category:'Low Light',price:27.00,image:'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=700&q=80'},
-  {id:6,name:'Chinese Evergreen',category:'Low Light',price:31.50,image:'https://images.unsplash.com/photo-1616764830288-2a7f5e0e5f1d?auto=format&fit=crop&w=700&q=80'},
-  {id:7,name:'Monstera Deliciosa',category:'Tropical',price:39.99,image:'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=700&q=80'},
-  {id:8,name:'Bird of Paradise',category:'Tropical',price:45.00,image:'https://images.unsplash.com/photo-1597055181300-d6f60a3d2b6b?auto=format&fit=crop&w=700&q=80'},
-  {id:9,name:'Calathea Orbifolia',category:'Tropical',price:34.99,image:'https://images.unsplash.com/photo-1598880940080-ff9a29891b85?auto=format&fit=crop&w=700&q=80'},
-  {id:10,name:'Rubber Plant',category:'Tropical',price:32.99,image:'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=700&q=80'},
-  {id:11,name:'Fiddle Leaf Fig',category:'Tropical',price:49.99,image:'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=700&q=80'},
-  {id:12,name:'Areca Palm',category:'Tropical',price:36.50,image:'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=700&q=80'},
-  {id:13,name:'Aloe Vera',category:'Succulents',price:16.99,image:'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=700&q=80'},
-  {id:14,name:'Jade Plant',category:'Succulents',price:19.99,image:'https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?auto=format&fit=crop&w=700&q=80'},
-  {id:15,name:'Haworthia',category:'Succulents',price:14.50,image:'https://images.unsplash.com/photo-1525498128493-380d1990a112?auto=format&fit=crop&w=700&q=80'},
-  {id:16,name:'Echeveria',category:'Succulents',price:13.99,image:'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=700&q=80'},
-  {id:17,name:'String of Pearls',category:'Succulents',price:21.99,image:'https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=700&q=80'},
-  {id:18,name:'Zebra Haworthia',category:'Succulents',price:15.99,image:'https://images.unsplash.com/photo-1519336056116-bc0f177b36f2?auto=format&fit=crop&w=700&q=80'}
+const plantsArray = [
+  {
+    category: 'Air Purifying Plants',
+    plants: [
+      {
+        name: 'Snake Plant',
+        image: 'https://images.unsplash.com/photo-1593482892290-f54927ae1bb6?auto=format&fit=crop&w=400&q=80',
+        description: 'Removes toxins and releases oxygen at night.',
+        cost: '$18',
+      },
+      {
+        name: 'Spider Plant',
+        image: 'https://images.unsplash.com/photo-1572688484438-313a6e50c333?auto=format&fit=crop&w=400&q=80',
+        description: 'Easy to grow and great at purifying air.',
+        cost: '$14',
+      },
+      {
+        name: 'Peace Lily',
+        image: 'https://images.unsplash.com/photo-1620127252536-03bdfcf6d5f0?auto=format&fit=crop&w=400&q=80',
+        description: 'Elegant white blooms and strong air-cleaning power.',
+        cost: '$22',
+      },
+      {
+        name: 'Boston Fern',
+        image: 'https://images.unsplash.com/photo-1585637071091-b45c3aac2d8b?auto=format&fit=crop&w=400&q=80',
+        description: 'Lush, feathery fronds that humidify the air.',
+        cost: '$16',
+      },
+      {
+        name: 'Rubber Plant',
+        image: 'https://images.unsplash.com/photo-1616500163246-742c76e1c14f?auto=format&fit=crop&w=400&q=80',
+        description: 'Glossy leaves and excellent toxin removal.',
+        cost: '$25',
+      },
+      {
+        name: 'Areca Palm',
+        image: 'https://images.unsplash.com/photo-1598880940371-c756e015e8c9?auto=format&fit=crop&w=400&q=80',
+        description: 'A natural humidifier with feathery fronds.',
+        cost: '$28',
+      },
+    ],
+  },
+  {
+    category: 'Aromatic Fragrant Plants',
+    plants: [
+      {
+        name: 'Lavender',
+        image: 'https://images.unsplash.com/photo-1498091815776-d84e5c5f8850?auto=format&fit=crop&w=400&q=80',
+        description: 'Calming fragrance known to help you relax.',
+        cost: '$15',
+      },
+      {
+        name: 'Jasmine',
+        image: 'https://images.unsplash.com/photo-1591958911259-bee2173bdcc5?auto=format&fit=crop&w=400&q=80',
+        description: 'Sweetly scented night-blooming flowers.',
+        cost: '$19',
+      },
+      {
+        name: 'Gardenia',
+        image: 'https://images.unsplash.com/photo-1597055181300-e3877e942799?auto=format&fit=crop&w=400&q=80',
+        description: 'Rich, creamy blossoms with a heavenly scent.',
+        cost: '$24',
+      },
+      {
+        name: 'Rosemary',
+        image: 'https://images.unsplash.com/photo-1515586000433-45406d8e6662?auto=format&fit=crop&w=400&q=80',
+        description: 'Woodsy herb fragrance, great for the kitchen.',
+        cost: '$12',
+      },
+      {
+        name: 'Mint',
+        image: 'https://images.unsplash.com/photo-1628556270448-4d4e4148e1b1?auto=format&fit=crop&w=400&q=80',
+        description: 'Crisp, refreshing aroma and easy to grow.',
+        cost: '$10',
+      },
+      {
+        name: 'Eucalyptus',
+        image: 'https://images.unsplash.com/photo-1587334207805-6e21b8e7c2fb?auto=format&fit=crop&w=400&q=80',
+        description: 'Invigorating scent that clears the senses.',
+        cost: '$20',
+      },
+    ],
+  },
+  {
+    category: 'Insect Repellent Plants',
+    plants: [
+      {
+        name: 'Citronella',
+        image: 'https://images.unsplash.com/photo-1628520923312-5c3e3a3f1f3d?auto=format&fit=crop&w=400&q=80',
+        description: 'Natural mosquito repellent for patios.',
+        cost: '$17',
+      },
+      {
+        name: 'Marigold',
+        image: 'https://images.unsplash.com/photo-1597055181449-b3e4c1c1f9b3?auto=format&fit=crop&w=400&q=80',
+        description: 'Bright blooms that keep pests away.',
+        cost: '$9',
+      },
+      {
+        name: 'Lemongrass',
+        image: 'https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b1a?auto=format&fit=crop&w=400&q=80',
+        description: 'Citrusy scent that deters mosquitoes.',
+        cost: '$13',
+      },
+      {
+        name: 'Basil',
+        image: 'https://images.unsplash.com/photo-1618375569909-3c8616cf7733?auto=format&fit=crop&w=400&q=80',
+        description: 'Culinary herb that also repels flies.',
+        cost: '$11',
+      },
+      {
+        name: 'Catnip',
+        image: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&w=400&q=80',
+        description: 'Naturally repels mosquitoes and delights cats.',
+        cost: '$12',
+      },
+      {
+        name: 'Chrysanthemum',
+        image: 'https://images.unsplash.com/photo-1572454591674-2739f30f2f92?auto=format&fit=crop&w=400&q=80',
+        description: 'Contains natural compounds that repel insects.',
+        cost: '$16',
+      },
+    ],
+  },
 ];
 
-export { plants };
-
-export default function ProductList() {
+function ProductList({ onCartClick, onAboutUsClick }) {
   const dispatch = useDispatch();
-  const items = useSelector(state => state.cart.items);
-  const count = items.reduce((sum, item) => sum + item.quantity, 0);
-  const categories = [...new Set(plants.map(plant => plant.category))];
+  const cartItems = useSelector((state) => state.cart.items);
+  const [addedToCart, setAddedToCart] = useState({});
+
+  const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  const handleAddToCart = (plant) => {
+    dispatch(addItem(plant));
+    setAddedToCart((prev) => ({ ...prev, [plant.name]: true }));
+  };
 
   return (
-    <div className="page">
+    <div className="product-list-page">
       <nav className="navbar">
-        <Link className="brand" to="/">Paradise Nursery</Link>
-        <div className="nav-links">
-          <Link to="/">Home</Link><Link to="/plants">Plants</Link>
-          <Link className="cart-link" to="/cart">Cart 🛒 <span>{count}</span></Link>
+        <div className="navbar-brand">
+          <span onClick={(e) => { e.preventDefault(); }} className="brand-title">
+            Paradise Nursery
+          </span>
+        </div>
+        <div className="navbar-links">
+          <a href="/" className="nav-link" onClick={(e) => e.preventDefault()}>
+            Home
+          </a>
+          <a href="/plants" className="nav-link" onClick={(e) => e.preventDefault()}>
+            Plants
+          </a>
+          <a href="/cart" className="nav-link cart-link" onClick={onCartClick}>
+            <span className="cart-icon" role="img" aria-label="cart">🛒</span>
+            <span className="cart-count">{totalCartItems}</span>
+          </a>
         </div>
       </nav>
 
-      <header className="listing-head">
-        <h1>Our Houseplants</h1>
-        <p>Choose from plants for every space and experience level.</p>
-      </header>
+      <div className="product-list-header">
+        <h1>Our Plant Collection</h1>
+        <p>Browse our hand-picked houseplants, grouped by category.</p>
+      </div>
 
-      {categories.map(category => (
-        <section key={category}>
-          <h2>{category}</h2>
-          <div className="grid">
-            {plants.filter(p => p.category === category).map(plant => {
-              const added = items.some(item => item.id === plant.id);
-              return (
-                <article className="card" key={plant.id}>
-                  <img src={plant.image} alt={plant.name} />
-                  <div className="card-body">
-                    <h3>{plant.name}</h3>
-                    <p>${plant.price.toFixed(2)}</p>
-                    <button disabled={added} onClick={() => dispatch(addToCart(plant))}>
-                      {added ? 'Added to Cart' : 'Add to Cart'}
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
+      {plantsArray.map((categoryGroup) => (
+        <div className="category-section" key={categoryGroup.category}>
+          <h2 className="category-title">{categoryGroup.category}</h2>
+          <div className="product-grid">
+            {categoryGroup.plants.map((plant) => (
+              <div className="product-card" key={plant.name}>
+                <img src={plant.image} alt={plant.name} className="product-image" />
+                <h3 className="product-name">{plant.name}</h3>
+                <p className="product-description">{plant.description}</p>
+                <p className="product-cost">{plant.cost}</p>
+                <button
+                  className="add-to-cart-button"
+                  disabled={addedToCart[plant.name]}
+                  onClick={() => handleAddToCart(plant)}
+                >
+                  {addedToCart[plant.name] ? 'Added' : 'Add to Cart'}
+                </button>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
       ))}
     </div>
   );
 }
+
+export default ProductList;
