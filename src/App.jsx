@@ -1,46 +1,75 @@
+import React, { useState } from 'react';
+import './App.css';
+import AboutUs from './components/AboutUs';
+import ProductList from './components/ProductList';
+import CartItem from './components/CartItem';
 
-import { Routes, Route, Link } from 'react-router-dom';
+function App() {
+  // 'landing' | 'products' | 'cart'
+  const [currentPage, setCurrentPage] = useState('landing');
+  const [showAboutUs, setShowAboutUs] = useState(false);
 
-import ProductList from './components/ProductList/ProductList.jsx';
-import CartItem from './components/CartItem/CartItem.jsx';
-import AboutUs from './components/AboutUs.jsx';
+  const handleGetStartedClick = () => {
+    setCurrentPage('products');
+  };
 
-export default function App() {
+  const handleAboutUsClick = (e) => {
+    e.preventDefault();
+    setShowAboutUs(true);
+  };
+
+  const handleContinueShopping = (e) => {
+    if (e) e.preventDefault();
+    setCurrentPage('products');
+  };
+
+  const handleCartClick = (e) => {
+    if (e) e.preventDefault();
+    setCurrentPage('cart');
+  };
+
+  if (showAboutUs) {
+    return <AboutUs onBack={() => setShowAboutUs(false)} />;
+  }
+
   return (
-    <Routes>
-      {/* Paradise Nursery Landing Page */}
-      <Route path="/" element={<Landing />} />
+    <div>
+      {currentPage === 'landing' && (
+        <div className="landing-page">
+          <div className="landing-content">
+            <h1>Paradise Nursery</h1>
+            <h2>Where Green Meets Serenity</h2>
+            <p>
+              Welcome to Paradise Nursery, your trusted destination for premium
+              houseplants. We are passionate about connecting people with
+              nature by delivering healthy, beautiful plants that purify your
+              air, soothe your senses, and bring life to any space.
+            </p>
+            <button className="get-started-button" onClick={handleGetStartedClick}>
+              Get Started
+            </button>
+            <div style={{ marginTop: '1.5rem' }}>
+              <a
+                href="/about"
+                onClick={handleAboutUsClick}
+                style={{ color: '#ffffff', textDecoration: 'underline', cursor: 'pointer' }}
+              >
+                Learn more about us
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* Plant Products */}
-      <Route path="/plants" element={<ProductList />} />
+      {currentPage === 'products' && (
+        <ProductList onCartClick={handleCartClick} onAboutUsClick={handleAboutUsClick} />
+      )}
 
-      {/* Shopping Cart */}
-      <Route path="/cart" element={<CartItem />} />
-
-      {/* About Paradise Nursery */}
-      <Route path="/about" element={<AboutUs />} />
-    </Routes>
+      {currentPage === 'cart' && (
+        <CartItem onContinueShopping={handleContinueShopping} />
+      )}
+    </div>
   );
 }
 
-/* Landing Page */
-function Landing() {
-  return (
-    <main className="landing">
-      <div className="hero">
-        <p className="eyebrow">🌿 Bring Nature Home</p>
-
-        <h1>Paradise Nursery</h1>
-
-        <p>
-          Discover beautiful, healthy, and easy-to-care-for houseplants
-          selected to make every home and office feel fresh and alive.
-        </p>
-
-        <Link className="primary-btn" to="/plants">
-          Get Started
-        </Link>
-      </div>
-    </main>
-  );
-}
+export default App;
